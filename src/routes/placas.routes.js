@@ -32,6 +32,10 @@ router.post('/', async (req, res) => {
     if (!placaSanitizada) {
       return res.status(400).json({ error: 'Placa inválida' })
     }
+    // Formato colombiano: ABC123 (antigua) o ABC12D (nueva)
+    if (!/^[A-Z]{3}[A-Z0-9]{3}$/.test(placaSanitizada)) {
+      return res.status(400).json({ error: 'Formato de placa inválido. Use el formato ABC123 o ABC12D' })
+    }
     const existe = await Placa.findOne({ placa: placaSanitizada })
     if (existe) {
       return res.status(409).json({ error: 'La placa ya existe' })

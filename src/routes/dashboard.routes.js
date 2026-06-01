@@ -4,6 +4,8 @@ const { getModel } = require('../utils/coleccion')
 const { toNum } = require('../utils/helpers')
 const { GASTOS_KEYS } = require('../constants/gastos')
 
+const Placa = mongoose.model('Placa')
+
 const router = express.Router()
 
 function totalGastosDeViaje(gastos = {}) {
@@ -35,11 +37,8 @@ function statsDeViajes(viajes, anioFiltro, mesFiltro) {
 }
 
 async function getPlacasDisponibles() {
-  const colecciones = await mongoose.connection.db.listCollections().toArray()
-  return colecciones
-    .map((c) => c.name)
-    .filter((name) => name.endsWith('_viajes'))
-    .map((name) => name.replace('_viajes', ''))
+  const docs = await Placa.find().sort({ placa: 1 }).lean()
+  return docs.map((d) => d.placa)
 }
 
 // GET /api/dashboard/stats?anio=2026&mes=3

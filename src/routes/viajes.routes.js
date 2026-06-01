@@ -3,12 +3,13 @@ const { getModel } = require('../utils/coleccion')
 
 const router = express.Router()
 
-// GET /api/:placa/viajes/all - Obtiene TODOS los viajes de una placa sin filtros
+// GET /api/:placa/viajes/all - Obtiene todos los viajes de una placa sin filtros
 router.get('/:placa/viajes/all', async (req, res) => {
   try {
     const { placa } = req.params
+    const limite = Math.min(Math.max(1, parseInt(req.query.limite) || 500), 1000)
     const Viaje = getModel(placa, 'viajes')
-    const viajes = await Viaje.find({}).sort({ createdAt: -1 }).lean()
+    const viajes = await Viaje.find({}).sort({ createdAt: -1 }).limit(limite).lean()
     res.json(viajes)
   } catch (err) {
     console.error(err)
