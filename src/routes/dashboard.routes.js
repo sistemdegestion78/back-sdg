@@ -1,10 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const { getModel } = require('../utils/coleccion')
+const Placa = require('../models/Placa.model')
 const { toNum } = require('../utils/helpers')
 const { GASTOS_KEYS } = require('../constants/gastos')
-
-const Placa = mongoose.model('Placa')
 
 const router = express.Router()
 

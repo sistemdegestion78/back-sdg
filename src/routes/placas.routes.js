@@ -1,14 +1,7 @@
 const express = require('express')
-const mongoose = require('mongoose')
+const Placa = require('../models/Placa.model')
 
 const router = express.Router()
-
-const placaSchema = new mongoose.Schema(
-  { placa: { type: String, required: true, unique: true } },
-  { timestamps: true }
-)
-
-const Placa = mongoose.model('Placa', placaSchema, 'placas')
 
 // GET /api/placas → devuelve array de strings ["TMP836", "WFC474", ...]
 router.get('/', async (req, res) => {
